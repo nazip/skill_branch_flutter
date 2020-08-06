@@ -1,6 +1,7 @@
 import 'package:FlutterGalleryApp/user_holder.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/models/user.dart';
+// import '../lib/models/user.dart';
+import 'package:FlutterGalleryApp/models/user.dart';
 
 void main() {
   UserHolder users = UserHolder();
@@ -30,4 +31,6 @@ void main() {
   var user = User(name: 'Имя фамилия', email: 'abc@mail.ru');
   test('addFriendToUser',
       () => {expect(true, users.addFriendToUser('Имя', user))});
+  test('findUserInFriends',
+      () => {expect(user, users.findUserInFriends('Имя', 'Имя'))});
 }
