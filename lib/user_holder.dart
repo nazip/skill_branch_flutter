@@ -40,28 +40,28 @@ class UserHolder {
     throw Exception("fried not found");
   }
 
-  List<User> importUsers(String users) {
-    var usersList = users.replaceAll('\n', '').trim().split(';');
-    List<User> result = [];
+  List<User> importUsers(List<String> users) {
     String email;
     String phone;
     String fullName;
-
-    if (usersList.length == 0) return [];
-
-    usersList.forEach((element) {
-      if (element != '') {
-        if (element.contains('@')) {
-          email = element.trim();
-        } else if (element.contains('+')) {
-          phone = element.trim();
-        } else {
-          fullName = element.trim();
-        }
+    List<User> result = [];
+    users.forEach((element) {
+      var usersList = element.replaceAll('\n', '').trim().split(';');
+      if (usersList.length != 0) {
+        usersList.forEach((el) {
+          if (el != '') {
+            if (el.contains('@')) {
+              email = el.trim();
+            } else if (el.contains('+')) {
+              phone = el.trim();
+            } else {
+              fullName = el.trim();
+            }
+          }
+        });
+        result.add(User(name: fullName, phone: phone, email: email));
       }
     });
-    var user = User(name: fullName, phone: phone, email: email);
-    result.add(user);
     return result;
   }
 }

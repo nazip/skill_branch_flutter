@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart'
     show expect, group, isA, setUp, tearDownAll, test, throwsA;
 
-import '../lib/user_holder.dart';
 import '../lib/models/user.dart';
+import '../lib/user_holder.dart';
 
 void main() {
   UserHolder holder;
@@ -138,11 +138,13 @@ void main() {
         phone: "+1 (231) 076-1449",
         email: "dan.tot@yandex.ru");
 
-    List<User> users = holder.importUsers("""
+    List<User> users = holder.importUsers([
+      """
       ${user.name};
       ${user.email};
       ${user.phone};
-      """);
+      """,
+    ]);
 
     expect(users[0].login, user.login);
     expect(users[0].email, user.email);
