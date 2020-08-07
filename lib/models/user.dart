@@ -26,7 +26,7 @@ class User with UserUtils {
         phone: phone);
   }
 
-  addFriend(User user) => friends.add(user);
+  addFriend(User user) => this.friends.add(user);
 
   List<User> get getFriends => friends;
   User addFriends(User u, List<User> friend) {

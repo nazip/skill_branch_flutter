@@ -19,18 +19,45 @@ void main() {
 
   test(
       'register UserByEmail',
-      () =>
-          {expect(1, users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru'))});
+      () => {
+            expect(
+                true, users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru'))
+          });
+
   test(
       'register UserByPhone',
       () => {
-            expect(1, users.registerUserByPhone('Имя Фамилия', '+7917 3333333'))
+            expect(
+                true, users.registerUserByPhone('Имя Фамилия', '+7917 3333333'))
           });
 
-  users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru');
-  var user = User(name: 'Имя фамилия', email: 'abc@mail.ru');
-  test('addFriendToUser',
-      () => {expect(true, users.addFriendToUser('Имя', user))});
-  test('findUserInFriends',
-      () => {expect(user, users.findUserInFriends('Имя', 'Имя'))});
+  test('addFriendToUser', () {
+    users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru');
+    var user = User(name: 'Имя фамилия', email: 'abc@mail.ru');
+    expect(true, users.addFriendToUser('Имя', user));
+  });
+
+  test('findUserInFriends', () {
+    var user = User(name: 'Имя фамилия', email: 'abc@mail.ru');
+
+    if (!users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru'))
+      throw Exception('error register user by phone');
+
+    if (!users.addFriendToUser('Имя', user))
+      throw Exception("user did not add");
+
+    expect(user, users.findUserInFriends('Имя', 'Имя'));
+    expect(null, users.findUserInFriends('Имя', 'Имя1'));
+  });
+
+  test('importUsers', () {
+    List<User> newUsers = [];
+    newUsers.add(User(name: 'Имя фамилия', email: 'abc@mail.ru'));
+    newUsers.add(User(name: 'Имя1 фамилия1', email: 'abc1@mail.ru'));
+    expect(true, users.importUsers(newUsers));
+    expect(2, users.users.length);
+    newUsers.add(User(name: 'Имя1 фамилия1', email: 'abc1@mail.ru'));
+    expect(true, users.importUsers(newUsers));
+    expect(2, users.users.length);
+  });
 }
