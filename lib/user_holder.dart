@@ -5,18 +5,22 @@ class UserHolder {
   Map<String, User> users = {};
 
   User registerUserByEmail(String fullName, String email) {
+    for (var val in users.values) {
+      if (val.email == email)
+        throw Exception("A user with this email already exists");
+    }
     var user = User(name: fullName, email: email);
-    if (users.containsKey(email))
-      throw Exception("user with email $email already exists");
-    users.addAll({email: user});
+    users.addAll({fullName: user});
     return user;
   }
 
   User registerUserByPhone(String fullName, String phone) {
+    for (var val in users.values) {
+      if (val.phone == phone)
+        throw Exception("A user with this phone already exists");
+    }
     var user = User(name: fullName, phone: phone);
-    if (users.containsKey(phone))
-      throw Exception("user with phone $phone already exists");
-    users.addAll({phone: user});
+    users.addAll({fullName: user});
     return user;
   }
 
