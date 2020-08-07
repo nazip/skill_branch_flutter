@@ -4,16 +4,20 @@ import 'package:FlutterGalleryApp/models/user.dart';
 class UserHolder {
   Map<String, User> users = {};
 
-  bool registerUserByEmail(String password, String email) {
-    var user = User(password: password, email: email);
-    users.addAll({user.firstName: user});
-    return true;
+  User registerUserByEmail(String fullName, String email) {
+    var user = User(name: fullName, email: email);
+    if (users.containsKey(email))
+      throw Exception("user with email $email already exists");
+    users.addAll({email: user});
+    return user;
   }
 
-  bool registerUserByPhone(String phone) {
-    var user = User(phone: phone);
+  User registerUserByPhone(String fullName, String phone) {
+    var user = User(name: fullName, phone: phone);
+    if (users.containsKey(phone))
+      throw Exception("user with phone $phone already exists");
     users.addAll({phone: user});
-    return true;
+    return user;
   }
 
   bool addFriendToUser(String userFirstName, User friend) {

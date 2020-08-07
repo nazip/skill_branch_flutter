@@ -34,7 +34,7 @@ class User with UserUtils {
         firstName: name != '' ? _getFirstName(name) : null,
         lastName: name != '' ? _getLastName(name) : null,
         email: email,
-        phone: phone,
+        phone: phone != '' ? _checkPhone(phone) : phone,
         password: password);
   }
 
@@ -52,6 +52,15 @@ class User with UserUtils {
   String get firstName => _firstName;
   String get lastName => _lastName;
   String get name => '$_firstName $_lastName';
+
+  static String _checkPhone(String phone) {
+    if (phone.trim().isEmpty) throw Exception('phone should not empty');
+    phone = phone.replaceAll(RegExp('[^+\\d]'), '');
+    if (phone.isEmpty) throw Exception('phone should not empty');
+    if (phone[0] != '+' || phone.length != 12)
+      throw Exception('error phone format');
+    return phone;
+  }
 
   @override
   String toString() {
