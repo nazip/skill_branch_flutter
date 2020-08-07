@@ -19,17 +19,11 @@ void main() {
 
   test(
       'register UserByEmail',
-      () => {
-            expect(
-                true, users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru'))
-          });
+      () =>
+          {expect(true, users.registerUserByEmail('password', 'abc@mail.ru'))});
 
-  test(
-      'register UserByPhone',
-      () => {
-            expect(
-                true, users.registerUserByPhone('Имя Фамилия', '+7917 3333333'))
-          });
+  test('register UserByPhone',
+      () => {expect(true, users.registerUserByPhone('+7917 3333333'))});
 
   test('addFriendToUser', () {
     users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru');

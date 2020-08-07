@@ -5,25 +5,37 @@ class User with UserUtils {
   String phone;
   String _firstName;
   String _lastName;
+  String _password;
   List<User> friends;
 
-  User._({String firstName, String lastName, String email, String phone}) {
+  User._(
+      {String firstName,
+      String lastName,
+      String email,
+      String phone,
+      String password}) {
     _firstName = capitalize(firstName);
     _lastName = capitalize(lastName);
     this.email = email;
     this.phone = phone;
+    this._password = password;
     this.friends = [];
   }
 
-  factory User({String name = '', String phone = '', String email = ''}) {
-    if (name.isEmpty) throw Exception('name should not empty');
-    if (phone.isEmpty && email.isEmpty)
-      throw Exception('phone or phone should not empty');
+  factory User(
+      {String name = '',
+      String phone = '',
+      String email = '',
+      String password}) {
+    // if (name.isEmpty) throw Exception('name should not empty');
+    // if (phone.isEmpty && email.isEmpty)
+    //   throw Exception('phone or phone should not empty');
     return User._(
-        firstName: _getFirstName(name),
-        lastName: _getLastName(name),
+        firstName: name != '' ? _getFirstName(name) : null,
+        lastName: name != '' ? _getLastName(name) : null,
         email: email,
-        phone: phone);
+        phone: phone,
+        password: password);
   }
 
   addFriend(User user) => this.friends.add(user);

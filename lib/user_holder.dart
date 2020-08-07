@@ -4,15 +4,15 @@ import 'package:FlutterGalleryApp/models/user.dart';
 class UserHolder {
   Map<String, User> users = {};
 
-  bool registerUserByEmail(String name, String email) {
-    var user = User(name: name, email: email);
+  bool registerUserByEmail(String password, String email) {
+    var user = User(password: password, email: email);
     users.addAll({user.firstName: user});
     return true;
   }
 
-  bool registerUserByPhone(String name, String phone) {
-    var user = User(name: name, phone: phone);
-    users.addAll({user.firstName: user});
+  bool registerUserByPhone(String phone) {
+    var user = User(phone: phone);
+    users.addAll({phone: user});
     return true;
   }
 
