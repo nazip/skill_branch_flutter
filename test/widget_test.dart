@@ -20,9 +20,7 @@ void main() {
   test('register UserByEmail', () {
     expect('abc@mail.ru',
         users.registerUserByEmail('Имя Фамилия', 'abc@mail.ru').email);
-    // users.registerUserByEmail('Имя Фамилия', 'abc@mail1.ru');
-    // expect(
-    //     true, users.registerUserByEmail('Имя Фамилия', 'abc@mail1.ru') == null);
+    // expect(true, users.registerUserByEmail('', 'abc@mail.ru') == null);
   });
 
   test(

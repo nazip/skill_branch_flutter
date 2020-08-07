@@ -9,6 +9,7 @@ class UserHolder {
     if (users.containsKey(user.login))
       throw Exception("A user with this email already exists");
     users[user.login] = user;
+    print(user);
     return user;
   }
 
@@ -28,14 +29,14 @@ class UserHolder {
     return false;
   }
 
-  User findUserInFriends(String userFirstName, String usersFriend) {
-    if (users.containsKey(userFirstName)) {
-      for (var friend in users[userFirstName].getFriends) {
-        if (friend.firstName == usersFriend) {
-          return friend;
-        }
-      }
-    }
+  User findUserInFriends(String fullName, String usersFriend) {
+    // for (var user in users.values) {}
+
+    // for (var friend in users[userFirstName].getFriends) {
+    //   if (friend.firstName == usersFriend) {
+    //     return friend;
+    //   }
+    // }
     return null;
   }
 
