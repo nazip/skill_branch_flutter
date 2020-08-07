@@ -1,5 +1,7 @@
 import '../string_util.dart';
 
+enum LoginType { email, phone }
+
 class User with UserUtils {
   String email;
   String phone;
@@ -7,6 +9,7 @@ class User with UserUtils {
   String _lastName;
   String _password;
   List<User> friends;
+  LoginType _type;
 
   User._(
       {String firstName,
@@ -20,21 +23,19 @@ class User with UserUtils {
     this.phone = phone;
     this._password = password;
     this.friends = [];
+    _type = email == null ? LoginType.phone : LoginType.email;
   }
 
-  factory User(
-      {String name = '',
-      String phone = '',
-      String email = '',
-      String password}) {
-    // if (name.isEmpty) throw Exception('name should not empty');
-    // if (phone.isEmpty && email.isEmpty)
-    //   throw Exception('phone or phone should not empty');
+  factory User({String name, String phone, String email, String password}) {
+    if (name == null || name.isEmpty)
+      throw Exception('name should not be empty');
+    if ((phone == null || phone.isEmpty) && (email == null || email.isEmpty))
+      throw Exception('phone or email must be not empty');
     return User._(
-        firstName: name != '' ? _getFirstName(name) : null,
-        lastName: name != '' ? _getLastName(name) : null,
+        firstName: _getFirstName(name),
+        lastName: _getLastName(name),
         email: email,
-        phone: phone != '' ? _checkPhone(phone) : phone,
+        phone: phone != null ? _checkPhone(phone) : phone,
         password: password);
   }
 
@@ -52,13 +53,16 @@ class User with UserUtils {
   String get firstName => _firstName;
   String get lastName => _lastName;
   String get name => '$_firstName $_lastName';
+  String get login => _type == LoginType.email ? email : phone;
 
   static String _checkPhone(String phone) {
-    if (phone.trim().isEmpty) throw Exception('phone should not empty');
+    if (phone == null || phone.trim().isEmpty)
+      throw Exception("Enter don't empty phone number");
     phone = phone.replaceAll(RegExp('[^+\\d]'), '');
-    if (phone.isEmpty) throw Exception('phone should not empty');
+    if (phone.isEmpty) throw Exception("Enter don't empty phone number");
     if (phone[0] != '+' || phone.length != 12)
-      throw Exception('error phone format');
+      throw Exception(
+          'Enter a valid phone number starting with a + and containing 11 digits');
     return phone;
   }
 
