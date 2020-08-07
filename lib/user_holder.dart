@@ -38,7 +38,7 @@ class UserHolder {
     for (var friend in users[login].friends) {
       if (friend == usersFriend) return friend;
     }
-    return null;
+    throw Exception("fried not found");
   }
 
   List<User> importUsers(String users) {

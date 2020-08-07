@@ -34,12 +34,12 @@ class User with UserUtils {
     return User._(
         firstName: _getFirstName(name),
         lastName: _getLastName(name),
-        email: email,
+        email: email != null ? _checkEmail(email) : email,
         phone: phone != null ? _checkPhone(phone) : phone,
         password: password);
   }
 
-  static String checkEmail(String email) {
+  static String _checkEmail(String email) {
     if (!email.contains('@')) throw Exception("Email doesn't valid");
     return email;
   }
