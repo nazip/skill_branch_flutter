@@ -18,7 +18,6 @@ class UserHolder {
     if (users.containsKey(user.login))
       throw Exception("A user with this email already exists");
     users[user.login] = user;
-    print(user);
     return user;
   }
 
