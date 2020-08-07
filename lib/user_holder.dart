@@ -4,6 +4,15 @@ import 'package:FlutterGalleryApp/models/user.dart';
 class UserHolder {
   Map<String, User> users = {};
 
+  registerUser(String fullName, String phone, String email) {
+    var user = User(name: fullName, email: email, phone: phone);
+    users[user.login] = user;
+  }
+
+  User getUserByLogin(String login) {
+    return users[login];
+  }
+
   User registerUserByEmail(String fullName, String email) {
     var user = User(name: fullName, email: email);
     if (users.containsKey(user.login))
@@ -21,31 +30,39 @@ class UserHolder {
     return user;
   }
 
-  bool addFriendToUser(String userFirstName, User friend) {
-    if (users.containsKey(userFirstName)) {
-      users[userFirstName].addFriend(friend);
-      return true;
-    }
-    return false;
+  setFriends(String login, List<User> friend) {
+    users[login].addFriend(friend);
   }
 
-  User findUserInFriends(String fullName, String usersFriend) {
-    // for (var user in users.values) {}
-
-    // for (var friend in users[userFirstName].getFriends) {
-    //   if (friend.firstName == usersFriend) {
-    //     return friend;
-    //   }
-    // }
+  User findUserInFriends(String login, User usersFriend) {
+    for (var friend in users[login].friends) {
+      if (friend == usersFriend) return friend;
+    }
     return null;
   }
 
-  bool importUsers(List<User> newUsers) {
-    if (newUsers.length == 0) return false;
-    newUsers.forEach((element) {
-      if (!users.containsKey(element.firstName))
-        users[element.firstName] = element;
+  List<User> importUsers(String users) {
+    var usersList = users.replaceAll('\n', '').trim().split(';');
+    List<User> result = [];
+    String email;
+    String phone;
+    String fullName;
+
+    if (usersList.length == 0) return [];
+
+    usersList.forEach((element) {
+      if (element != '') {
+        if (element.contains('@')) {
+          email = element.trim();
+        } else if (element.contains('+')) {
+          phone = element.trim();
+        } else {
+          fullName = element.trim();
+        }
+      }
     });
-    return true;
+    var user = User(name: fullName, phone: phone, email: email);
+    result.add(user);
+    return result;
   }
 }

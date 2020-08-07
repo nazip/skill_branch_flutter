@@ -39,7 +39,12 @@ class User with UserUtils {
         password: password);
   }
 
-  addFriend(User user) => this.friends.add(user);
+  static String checkEmail(String email) {
+    if (!email.contains('@')) throw Exception("Email doesn't valid");
+    return email;
+  }
+
+  addFriend(List<User> users) => this.friends.addAll(users);
 
   List<User> get getFriends => friends;
   User addFriends(User u, List<User> friend) {
