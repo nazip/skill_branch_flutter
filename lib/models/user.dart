@@ -1,4 +1,4 @@
-import '../string_utils.dart';
+import '../string_util.dart';
 
 class User with UserUtils {
   String email;
