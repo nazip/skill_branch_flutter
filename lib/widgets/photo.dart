@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class Photo extends StatelessWidget {
   const Photo({String photoLink, Key key})
-      : photoLink = photoLink,
+      : this.photoLink = photoLink != null ? photoLink : '',
         super(key: key);
 
   final String photoLink;
