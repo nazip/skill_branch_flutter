@@ -1,9 +1,12 @@
+import 'package:FlutterGalleryApp/screens/photo_screen.dart';
+
 import '../res/res.dart';
 import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';
 
 const String kFlutterDash =
-    'https://skill-branch.ru/img/speakers/Adechenko.jpg';
+    // 'https://skill-branch.ru/img/speakers/Adechenko.jpg';
+    'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
 
 class Feed extends StatefulWidget {
   Feed({Key key}) : super(key: key);
@@ -34,7 +37,16 @@ class _FeedState extends State<Feed> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Photo(photoLink: kFlutterDash),
+        GestureDetector(
+          child: Photo(photoLink: kFlutterDash),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        FullScreenImage(photoLink: kFlutterDash)));
+          },
+        ),
         _buildPhotoMeta(),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
