@@ -1,11 +1,8 @@
-import 'package:FlutterGalleryApp/res/res.dart';
+// import 'package:FlutterGalleryApp/res/res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';
 import './feed_screen.dart';
-
-// const String kFlutterDash =
-//     'https://skill-branch.ru/img/speakers/Adechenko.jpg';
 
 class FullScreenImage extends StatelessWidget {
   const FullScreenImage(
@@ -44,45 +41,38 @@ class FullScreenImage extends StatelessWidget {
       Text(this.name == null ? '' : this.name),
       Text(this.userName == null ? '' : '@' + this.userName),
       Text(this.altDescription == null ? '' : this.altDescription),
-      GestureDetector(
-        child: Row(children: [
-          Container(
-            child: Text('Save'),
-            decoration: BoxDecoration(
-                color: AppColors.manatee,
-                borderRadius: BorderRadius.circular(12)),
-          ),
-          Container(
-            child: Text('Visit'),
-            decoration: BoxDecoration(
-                color: AppColors.manatee,
-                borderRadius: BorderRadius.circular(12)),
-          ),
-        ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+      Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15),
+        child: GestureDetector(
+          child: Row(children: [
+            MyButton('Save', () => debugPrint("Save")),
+            MyButton('Visit', () => debugPrint("Visit")),
+          ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+        ),
       )
     ]));
   }
 }
 
-// class AppBar extends StatefulWidget {
-//   AppBar({this.title, this.leading, Key key}) : super(key: key);
+class MyButton extends StatelessWidget {
+  const MyButton(String text, Function onPress, {Key key})
+      : this.text = text,
+        this.onPress = onPress,
+        super(key: key);
 
-//   final String title;
-//   final String leading;
+  final String text;
+  final Function onPress;
 
-//   @override
-//   _AppBarState createState() => _AppBarState();
-// }
-
-// class _AppBarState extends State<AppBar> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Row(children: [
-//           IconButton(icon: Icon(Icons.chevron_left), onPressed: null)
-//         ],)
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Container(
+        child: RaisedButton(
+          onPressed: this.onPress,
+          child: Text(this.text, style: TextStyle(fontSize: 15)),
+        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
+      ),
+    );
+  }
+}
