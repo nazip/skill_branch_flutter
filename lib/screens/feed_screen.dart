@@ -22,7 +22,7 @@ class _FeedState extends State<Feed> {
       itemBuilder: (BuildContext context, int index) {
         return Column(
           children: [
-            _buildItem(),
+            Hero(tag: index, child: _buildItem(index)),
             Divider(
               thickness: 2,
               color: AppColors.mercury,
@@ -33,7 +33,7 @@ class _FeedState extends State<Feed> {
     ));
   }
 
-  Widget _buildItem() {
+  Widget _buildItem(int tag) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -43,8 +43,8 @@ class _FeedState extends State<Feed> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        FullScreenImage(photoLink: kFlutterDash)));
+                    builder: (context) => FullScreenImage(
+                        photo: kFlutterDash, heroTag: tag.toString())));
           },
         ),
         _buildPhotoMeta(),

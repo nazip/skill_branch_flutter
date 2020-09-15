@@ -7,20 +7,26 @@ import './feed_screen.dart';
 class FullScreenImage extends StatelessWidget {
   const FullScreenImage(
       {String altDescription,
-      String photoLink,
+      String photo,
       String userName,
       String name,
+      String heroTag,
+      String userPhoto,
       Key key})
-      : this.photoLink = photoLink,
+      : this.photoLink = photo,
         this.altDescription = altDescription,
         this.userName = userName,
         this.name = name,
+        this.heroTag = heroTag,
+        this.userPhoto = userPhoto,
         super(key: key);
 
   final String photoLink;
   final String userName;
   final String name;
   final String altDescription;
+  final String heroTag;
+  final String userPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,7 @@ class FullScreenImage extends StatelessWidget {
                 });
           }),
           title: Text('Photo')),
-      Photo(photoLink: kFlutterDash),
+      Hero(tag: heroTag, child: Photo(photoLink: kFlutterDash)),
       Text(this.name == null ? '' : this.name),
       Text(this.userName == null ? '' : '@' + this.userName),
       Text(this.altDescription == null ? '' : this.altDescription),
