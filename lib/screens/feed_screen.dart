@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:FlutterGalleryApp/screens/photo_screen.dart';
 
 import '../res/res.dart';
@@ -6,7 +8,7 @@ import '../widgets/widgets.dart';
 
 const String kFlutterDash =
     // 'https://skill-branch.ru/img/speakers/Adechenko.jpg';
-    'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
+    'https://homepages.cae.wisc.edu/~ece533/images/monarch.png';
 
 class Feed extends StatefulWidget {
   Feed({Key key}) : super(key: key);
@@ -15,14 +17,66 @@ class Feed extends StatefulWidget {
   _FeedState createState() => _FeedState();
 }
 
-class _FeedState extends State<Feed> {
+class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+  Color _color = Color(7);
+  double _size = 10;
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: Duration(seconds: 15),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: ListView.builder(
       itemBuilder: (BuildContext context, int index) {
         return Column(
           children: [
-            Hero(tag: index, child: _buildItem(index)),
+            RotationTransition(
+              child: _buildItem(index, _color),
+              alignment: Alignment.center,
+              turns: _animationController,
+            ),
+            // GestureDetector(
+            //   child: Hero(tag: index, child: _buildItem(index)),
+            // ),
+            GestureDetector(
+              child: AnimatedContainer(
+                  decoration: BoxDecoration(
+                    color: _color,
+                  ),
+                  duration: Duration(seconds: 1),
+                  onEnd: () => setState(() => _size = 10),
+                  curve: Curves.easeOutSine,
+                  child: FlutterLogo(size: _size < 50 ? 50 : _size)),
+              // child: _buildItem(index, _color)),
+              onTap: () => setState(() {
+                final random = Random();
+                _color = Color.fromRGBO(
+                  random.nextInt(256),
+                  random.nextInt(256),
+                  random.nextInt(256),
+                  1,
+                );
+                _size = random.nextDouble() * 300;
+                if (_animationController.isAnimating) {
+                  _animationController.stop();
+                } else {
+                  _animationController.repeat();
+                }
+              }),
+            ),
             Divider(
               thickness: 2,
               color: AppColors.mercury,
@@ -33,12 +87,17 @@ class _FeedState extends State<Feed> {
     ));
   }
 
-  Widget _buildItem(int tag) {
+  Widget _buildItem(int tag, Color backgroundColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         GestureDetector(
-          child: Photo(photoLink: kFlutterDash),
+          child: Column(
+            children: [
+              Photo(photoLink: kFlutterDash),
+              Text("qaz", style: TextStyle(backgroundColor: backgroundColor)),
+            ],
+          ),
           onTap: () {
             Navigator.push(
                 context,
