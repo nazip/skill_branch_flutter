@@ -40,7 +40,13 @@ class _FullScreenImageState extends State<FullScreenImage>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 1500), vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,42 +65,21 @@ class _FullScreenImageState extends State<FullScreenImage>
           }),
           title: Text('Photo')),
       Hero(tag: widget.heroTag, child: Photo(photoLink: kFlutterDash)),
-      UserAvatar(widget.userPhoto),
-      Text(widget.name == null ? '' : widget.name),
-      Text(widget.userName == null ? '' : '@' + widget.userName),
-      Text(widget.altDescription == null ? '' : widget.altDescription),
-      Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: GestureDetector(
-          child: Row(children: [
-            MyButton('Save', () => debugPrint("Save")),
-            MyButton('Visit', () => debugPrint("Visit")),
-          ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+      Row(children: <Widget>[
+        UserAvatar(widget.userPhoto),
+        SizedBox(
+          width: 6,
         ),
-      )
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(widget.name == null ? '' : widget.name),
+            Text(widget.userName == null ? '' : '@' + widget.userName),
+            Text(widget.altDescription == null ? '' : widget.altDescription)
+          ],
+        )
+      ])
     ]));
-  }
-}
-
-class MyButton extends StatelessWidget {
-  const MyButton(String text, Function onPress, {Key key})
-      : this.text = text,
-        this.onPress = onPress,
-        super(key: key);
-
-  final String text;
-  final Function onPress;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Container(
-        child: RaisedButton(
-          onPressed: this.onPress,
-          child: Text(this.text, style: TextStyle(fontSize: 15)),
-        ),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
-      ),
-    );
   }
 }
