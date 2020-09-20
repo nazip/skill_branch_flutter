@@ -83,3 +83,31 @@ class _FullScreenImageState extends State<FullScreenImage>
     ]));
   }
 }
+
+class AnimateFullScreenImage extends StatelessWidget {
+  AnimateFullScreenImage({Key key, this.controller})
+      : opacity = Tween<double>(
+          begin: 0.0,
+          end: 1.0,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Interval(
+              0.0,
+              0.100,
+              curve: Curves.ease,
+            ),
+          ),
+        );
+
+  final Animation<double> controller;
+  final Animation<double> opacity;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      builder: _buildAnimation,
+      animation: controller,
+    );
+  }
+}
