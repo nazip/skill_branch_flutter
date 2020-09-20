@@ -44,7 +44,12 @@ class _FeedState extends State<Feed> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => FullScreenImage(
-                        photo: kFlutterDash, heroTag: tag.toString())));
+                        name: "name",
+                        userName: "user name",
+                        userPhoto:
+                            'https://skill-branch.ru/img/speakers/Adechenko.jpg',
+                        photo: kFlutterDash,
+                        heroTag: tag.toString())));
           },
         ),
         _buildPhotoMeta(),

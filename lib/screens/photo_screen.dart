@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';
 import './feed_screen.dart';
 
-class FullScreenImage extends StatelessWidget {
-  const FullScreenImage(
+class FullScreenImage extends StatefulWidget {
+  FullScreenImage(
       {String altDescription,
       String photo,
       String userName,
@@ -29,6 +29,21 @@ class FullScreenImage extends StatelessWidget {
   final String userPhoto;
 
   @override
+  _FullScreenImageState createState() => _FullScreenImageState();
+}
+
+class _FullScreenImageState extends State<FullScreenImage>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(children: [
@@ -43,10 +58,11 @@ class FullScreenImage extends StatelessWidget {
                 });
           }),
           title: Text('Photo')),
-      Hero(tag: heroTag, child: Photo(photoLink: kFlutterDash)),
-      Text(this.name == null ? '' : this.name),
-      Text(this.userName == null ? '' : '@' + this.userName),
-      Text(this.altDescription == null ? '' : this.altDescription),
+      Hero(tag: widget.heroTag, child: Photo(photoLink: kFlutterDash)),
+      UserAvatar(widget.userPhoto),
+      Text(widget.name == null ? '' : widget.name),
+      Text(widget.userName == null ? '' : '@' + widget.userName),
+      Text(widget.altDescription == null ? '' : widget.altDescription),
       Padding(
         padding: const EdgeInsets.only(left: 15, right: 15),
         child: GestureDetector(
