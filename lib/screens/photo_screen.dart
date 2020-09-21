@@ -35,12 +35,44 @@ class FullScreenImage extends StatefulWidget {
 class _FullScreenImageState extends State<FullScreenImage>
     with TickerProviderStateMixin {
   AnimationController _controller;
+  Animation<double> __avatarOpacity;
+  Animation<double> __userNameOpacity;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1500), vsync: this);
+        duration: const Duration(milliseconds: 1500), vsync: this)
+      ..forward();
+    //_controller = Tween(begin: 0, end: 1.0).animate(_controller);
+
+    __avatarOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          0.0,
+          0.5,
+          curve: Curves.ease,
+        ),
+      ),
+    );
+
+    __userNameOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          0.5,
+          1.0,
+          curve: Curves.ease,
+        ),
+      ),
+    );
   }
 
   @override
@@ -65,49 +97,35 @@ class _FullScreenImageState extends State<FullScreenImage>
           }),
           title: Text('Photo')),
       Hero(tag: widget.heroTag, child: Photo(photoLink: kFlutterDash)),
-      Row(children: <Widget>[
-        UserAvatar(widget.userPhoto),
-        SizedBox(
-          width: 6,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(widget.name == null ? '' : widget.name),
-            Text(widget.userName == null ? '' : '@' + widget.userName),
-            Text(widget.altDescription == null ? '' : widget.altDescription)
-          ],
-        )
-      ])
+      AnimatedBuilder(
+          animation: _controller,
+          builder: (BuildContext context, Widget child) {
+            return Row(children: <Widget>[
+              Container(
+                  child: Opacity(
+                      opacity: __avatarOpacity.value,
+                      child: UserAvatar(widget.userPhoto))),
+              SizedBox(
+                width: 6,
+              ),
+              Container(
+                  child: Opacity(
+                      opacity: __userNameOpacity.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(widget.name == null ? '' : widget.name),
+                          Text(widget.userName == null
+                              ? ''
+                              : '@' + widget.userName),
+                          Text(widget.altDescription == null
+                              ? ''
+                              : widget.altDescription)
+                        ],
+                      )))
+            ]);
+          })
     ]));
-  }
-}
-
-class AnimateFullScreenImage extends StatelessWidget {
-  AnimateFullScreenImage({Key key, this.controller})
-      : opacity = Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: Interval(
-              0.0,
-              0.100,
-              curve: Curves.ease,
-            ),
-          ),
-        );
-
-  final Animation<double> controller;
-  final Animation<double> opacity;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      builder: _buildAnimation,
-      animation: controller,
-    );
   }
 }
