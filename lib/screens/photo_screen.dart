@@ -33,16 +33,24 @@ class FullScreenImage extends StatelessWidget {
     return Scaffold(
         body: Column(children: [
       AppBar(
-          leading: Builder(builder: (BuildContext context) {
-            return IconButton(
-                // icon: Icon(Icons.chevron_left),
-                icon: Icon(CupertinoIcons.back),
-                tooltip: 'back',
-                onPressed: () {
-                  Navigator.pop(context);
-                });
-          }),
-          title: Text('Photo')),
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+              // icon: Icon(Icons.chevron_left),
+              icon: Icon(CupertinoIcons.back),
+              tooltip: 'back',
+              onPressed: () {
+                Navigator.pop(context);
+              });
+        }),
+        title: Text('Photo'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
       Hero(tag: heroTag, child: Photo(photoLink: kFlutterDash)),
       Text(this.name == null ? '' : this.name),
       Text(this.userName == null ? '' : '@' + this.userName),
