@@ -44,11 +44,30 @@ class FullScreenImage extends StatelessWidget {
         }),
         title: Text('Photo'),
         actions: [
-          IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {
-                Navigator.pop(context);
-              })
+          Builder(
+              builder: (context) => IconButton(
+                  icon: Icon(Icons.more_vert),
+                  onPressed: () {
+                    Scaffold.of(context).showBottomSheet<void>(
+                      (BuildContext context) {
+                        return Container(
+                          height: 200,
+                          color: Colors.amber,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                MyButton('ADULT', () => Navigator.pop(context)),
+                                MyButton('SPAM', () => Navigator.pop(context)),
+                                MyButton('HATE', () => Navigator.pop(context)),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  })),
         ],
       ),
       Hero(tag: heroTag, child: Photo(photoLink: kFlutterDash)),
@@ -59,7 +78,31 @@ class FullScreenImage extends StatelessWidget {
         padding: const EdgeInsets.only(left: 15, right: 15),
         child: GestureDetector(
           child: Row(children: [
-            MyButton('Save', () => debugPrint("Save")),
+            MyButton(
+                'Save',
+                () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: new Text("title"),
+                          content: new Text("Alert Dialog body"),
+                          actions: <Widget>[
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            new FlatButton(
+                              child: new Text("Download"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    )),
             MyButton('Visit', () => debugPrint("Visit")),
           ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
         ),
