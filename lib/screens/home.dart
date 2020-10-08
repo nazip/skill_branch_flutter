@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,15 +8,43 @@ import 'feed_screen.dart';
 import 'demo_screen.dart';
 
 class Home extends StatefulWidget {
-  Home(Stream<ConnectivityResult> stream, {Key key}) : super(key: key);
+  Home(this.onConnectivityChanged);
+
+  final Stream<ConnectivityResult> onConnectivityChanged;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+  StreamSubscription subscription;
   int currentTab = 0;
   final PageStorageBucket bucket = PageStorageBucket();
+
+  @override
+  void initState() {
+    super.initState();
+    subscription =
+        widget.onConnectivityChanged.listen((ConnectivityResult result) {
+      switch (result) {
+        case ConnectivityResult.wifi:
+// Вызовете удаление Overlay тут
+          break;
+        case ConnectivityResult.mobile:
+// Вызовете удаление Overlay тут
+          break;
+        case ConnectivityResult.none:
+// Вызовете отображения Overlay тут
+          break;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
 
   List<Widget> pages = [
     Feed(key: PageStorageKey('FeedPage')),
