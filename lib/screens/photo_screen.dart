@@ -76,40 +76,72 @@ class FullScreenImage extends StatelessWidget {
       Text(this.altDescription == null ? '' : this.altDescription),
       Padding(
         padding: const EdgeInsets.only(left: 15, right: 15),
-        child: GestureDetector(
-          child: Row(children: [
-            MyButton(
-                'Save',
-                () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: new Text("title"),
-                          content: new Text("Alert Dialog body"),
-                          actions: <Widget>[
-                            new FlatButton(
-                              child: new Text("Close"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            new FlatButton(
-                              child: new Text("Download"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
+        child: Row(children: [
+          // MyButton('Save', () => Navigator.pop(context)),
+
+          GestureDetector(
+            onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text("download photos"),
+                  content:
+                      new Text("Are you sure you want to download a photo?"),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Download"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
                       },
-                    )),
-            MyButton('Visit', () => debugPrint("Visit")),
-          ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
-        ),
+                    ),
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+            child: Container(
+              padding: EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).buttonColor,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text("Save"),
+            ),
+          ),
+          MyButton('Cancel', () => Navigator.pop(context)),
+        ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
       )
     ]));
   }
 }
+
+// class MyButton extends StatelessWidget {
+//   const MyButton(String text, Function onPress, {Key key})
+//       : this.text = text,
+//         this.onPress = onPress,
+//         super(key: key);
+
+//   final String text;
+//   final Function onPress;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: Container(
+//         child: RaisedButton(
+//           onPressed: this.onPress,
+//           child: Text(this.text, style: TextStyle(fontSize: 15)),
+//         ),
+//         decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
+//       ),
+//     );
+//   }
+// }
 
 class MyButton extends StatelessWidget {
   const MyButton(String text, Function onPress, {Key key})
@@ -122,13 +154,15 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onPress,
       child: Container(
-        child: RaisedButton(
-          onPressed: this.onPress,
-          child: Text(this.text, style: TextStyle(fontSize: 15)),
+        padding: EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).buttonColor,
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
+        child: Text(text),
       ),
     );
   }
