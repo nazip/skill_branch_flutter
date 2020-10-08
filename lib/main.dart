@@ -23,6 +23,6 @@ class ConnectivityOverlay {
   }
 
   void removeOverlay(BuildContext context) {
-// реализуйте удаление Overlay.
+    // реализуйте удаление Overlay.
   }
 }
