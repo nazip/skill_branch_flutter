@@ -1,5 +1,3 @@
-// import 'package:FlutterGalleryApp/res/res.dart';
-import 'package:FlutterGalleryApp/claim_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';

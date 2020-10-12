@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../res/res.dart';
 import 'feed_screen.dart';
-import 'demo_screen.dart';
+// import 'demo_screen.dart';
 
 class Home extends StatefulWidget {
   Home(this.onConnectivityChanged);
@@ -83,7 +83,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             if (index == 1) {
               print(await Navigator.push(context,
                   MaterialPageRoute(builder: (BuildContext context) {
-                return DemoScreen();
+                // return DemoScreen();
+                return null;
               })));
             } else {
               setState(() {
